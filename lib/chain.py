@@ -6,4 +6,4 @@ def getNewWallet(rpc):
 def getVotesFromWallet(rpc,addr):
 	client = ServiceProxy(rpc)
 	transcArray =  client.getaddressbalances(addr)
-	return transcArray[0].qty
+	return transcArray[0]
