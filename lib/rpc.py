@@ -1,8 +1,4 @@
-import pyjsonrpc
+from jsonrpc import ServiceProxy
 
-client = pyjsonrpc.HttpClient(
-	url="http://localhost:2776",
-	username="jenn",
-	password="password"
-);
-print client.call("getadddresses");
+client = ServiceProxy("http://jenn:password@127.0.0.1:2776")
+print client.getaddresses()
