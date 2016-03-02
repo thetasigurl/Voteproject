@@ -11,8 +11,7 @@ Element 2 is email
 def main():
 	print(sys.argv)
 	db = MongoClient("localhost",27017).data
-	collection = db.users
-	voterCollection = db["voters"]
+	collection = db.voters
 	if(len(sys.argv) < 2):
 		raise Exception("Not enoug args")
 	else:
