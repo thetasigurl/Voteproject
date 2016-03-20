@@ -1,6 +1,6 @@
-import Tkinter as tk # Tkinter = python2
-from Tkinter import * #pretty button/label library --cant get this to work
-import ttk
+import tkinter as tk # Tkinter = python2
+from tkinter import * #pretty button/label library --cant get this to work
+from tkinter import ttk
 LARGE_FONT= ("Verdana", 12) #global varible
 
 #define class
@@ -16,7 +16,10 @@ class voteproject(tk.Tk): #inherantance
 		tk.Tk.wm_title(self,"VoteProject: Smart Democracy") #Works
 		
 		container = tk.Frame(self) #made a frame
-		
+		container.pack(side="top", fill="both", expand = True) #pack the space, to the top, expand says you can go beyond the page
+		container.grid_rowconfigure(0, weight=1) #weight is like priority 
+		container.grid_columnconfigure(0, weight=1)	
+
 				#creates frame size and centers with screen
 		container.width = container.winfo_screenwidth()/2
 		container.height = container.winfo_screenheight()/2
@@ -25,22 +28,14 @@ class voteproject(tk.Tk): #inherantance
 		x0 =container.x0 = xmax/2 - container.width/2
 		y0 =container.y0 = ymax/2 - container.height/2
 		self.geometry("%dx%d+%d+%d" % (container.width, container.height, x0, y0))	
-		
-		#container.pack(side="top", fill="both", expand = True) #pack the space, to the top, expand says you can go beyond the page
-		#container.grid_rowconfigure(0, weight=1) #weight is like priority 
-		#container.grid_columnconfigure(0, weight=1)	
-		print test
 		self.frames = {}
 		for F in (loginpage,authpage,votepage,resultpage): #loop to have multiple frames!!! 
-			
 			frame = F(container, self) #created the startframe	
-			
-			self.frames[F] = frame 
-			
-			#frame.grid(row=0, column =0, sticky="nsew") #must predefine the grid, sticky =northsoutheastswest....kinda like allignment
-		print test
+			self.frames[F] = frame
+			frame.grid(row=0, column =0, sticky="nsew") #must predefine the grid, sticky =northsoutheastswest....kinda like allignment
+		print(test)
 		self.show_frame(loginpage) 
-	print test
+	print(test)
 	def show_frame(self, cont):
 		
 		frame= self.frames[cont] 
@@ -99,10 +94,10 @@ class loginpage(tk.Frame): #This is the main page for log in
 		tk.Frame.__init__(self,parent)			
 			#just to see the page
 			
-		label= ttk.Label(self, text="VoteProject Page One", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
+		label= tk.Label(self, text="VoteProject Page One", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
 					
-		button1 = ttk.Button(self, text="vist page 1",command=lambda: controller.show_frame(PageOne))
+		button1 = tk.Button(self, text="vist page 1",command=lambda: controller.show_frame(PageOne))
 		button1.pack()
 			
 		#def OnButtonClick(self):
