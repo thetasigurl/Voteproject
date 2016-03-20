@@ -1,6 +1,6 @@
-import tkinter as tk # Tkinter = python2
-from tkinter import * #pretty button/label library --cant get this to work
-from tkinter import ttk
+import Tkinter as tk # Tkinter = python2
+from Tkinter import * #pretty button/label library --cant get this to work
+import ttk
 LARGE_FONT= ("Verdana", 12) #global varible
 
 #define class
