@@ -97,7 +97,7 @@ class loginpage(tk.Frame): #This is the main page for log in
 		label= tk.Label(self, text="VoteProject Page One", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
 					
-		button1 = tk.Button(self, text="vist page 1",command=lambda: controller.show_frame(PageOne))
+		button1 = tk.Button(self, text="vist page 1",command=lambda: controller.show_frame(authpage))
 		button1.pack()
 			
 		#def OnButtonClick(self):
@@ -114,7 +114,7 @@ class authpage(tk.Frame):
 		label = tk.Label(self, text="Start Page", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
 			
-		button4 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(Pagetwo))
+		button4 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(votepage))
 		button4.pack()
 class votepage(tk.Frame): 
 	def __init__(self,parent, controller):
@@ -123,10 +123,10 @@ class votepage(tk.Frame):
 		label = tk.Label(self, text="Page Two!!", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
 			
-		button2 =ttk.Button(self, text="Page One ",command=lambda: controller.show_frame(StartPage))
+		button2 =ttk.Button(self, text="Page One ",command=lambda: controller.show_frame(loginpage))
 		button2.pack()	
 		
-		button3 = ttk.Button(self, text="Back to Home ",command=lambda: controller.show_frame(Pageone))
+		button3 = ttk.Button(self, text="Back to Home ",command=lambda: controller.show_frame(authpage))
 		button3.pack()
 		 
 		 ##CREATE RADIO BUTTONS
