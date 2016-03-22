@@ -17,6 +17,7 @@ def ls(inn):
 def auth():
 	body = request.json
 	resp = db.hashed(body.hash)
+	resp = "TEST"
 	return flask.jsonify(**resp)
 if __name__ == "__main__":
 	app.run()
