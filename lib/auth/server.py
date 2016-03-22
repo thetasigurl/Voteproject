@@ -18,7 +18,8 @@ def ls(inn):
 
 @app.route("/auth",methods=["GET"])
 def auth():
-	return "WHITE HOUSES"
+	resp = request.json
+	return flask.jsonify(**resp)
 
 if __name__ == "__main__":
 	app.run()
