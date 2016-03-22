@@ -20,7 +20,7 @@ def ls(inn):
 def auth(hss):
 	content = request.json
 	#res = db.hashed(hss)
-	return hss
+	return "HASHING"
 
 if __name__ == "__main__":
 	app.run()
