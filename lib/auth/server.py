@@ -19,11 +19,7 @@ def ls(inn):
 @app.route("/auth",methods=["GET"])
 def auth():
 	resp = request.json
-	if not resp.hash:
-		return "NA"
-	else:
-		r = db.hashed(resp.hash)
-		return flask.jsonify(**r)
+	return resp.hash
 
 if __name__ == "__main__":
 	app.run()
