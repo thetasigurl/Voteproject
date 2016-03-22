@@ -19,5 +19,8 @@ def auth():
 	content = request.json
 	#res = db.hashed(hss)
 	return flask.jsonify(**content)
+@app.route("/test")
+	def teest():
+		return "TEEST"
 if __name__ == "__main__":
 	app.run()
