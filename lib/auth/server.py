@@ -15,9 +15,7 @@ def ls(inn):
 		return flask.jsonify(**lss[index])
 @app.route("/auth",methods=["GET"])
 def auth():
-	body = request.json
-	resp = db.hashed(body.hash)
-	resp = "TEST"
-	return flask.jsonify(**resp)
+	reqbody = request.json
+	return flask.jsonify(**reqbody)
 if __name__ == "__main__":
 	app.run()
