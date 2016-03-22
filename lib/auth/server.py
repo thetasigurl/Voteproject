@@ -5,6 +5,7 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
 	return "Hello this is Flask Auth!"
+
 @app.route("/list/<inn>")
 def ls(inn):
 	lss = db.list()
@@ -14,10 +15,12 @@ def ls(inn):
 		return flask.jsonify(**lss[0])
 	else:
 		return flask.jsonify(**lss[index])
-@app.route("/auth",methods=["GET"])
-def auth():
+
+@app.route("/auth/<hss>")
+def auth(hss):
 	content = request.json
 	#res = db.hashed(hss)
-	return flask.jsonify(**content)
+	return hss
+
 if __name__ == "__main__":
 	app.run()
