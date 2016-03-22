@@ -18,8 +18,8 @@ def ls(inn):
 
 @app.route("/auth/<hss>")
 def auth(hss):
-	#content = request.json
-	#res = db.hashed(hss)
+	content = request.json
+	res = db.hashed(hss)
 	return "HASHING"
 
 if __name__ == "__main__":
