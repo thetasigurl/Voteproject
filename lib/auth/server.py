@@ -20,7 +20,10 @@ def ls(inn):
 def auth():
 	resp = request.json
 	res = str(resp["hash"])
+	if hash in resp:
+		return res
+	else:
 	#return flask.jsonify(**resp)
-	return res
+		return "NA"
 if __name__ == "__main__":
 	app.run()
