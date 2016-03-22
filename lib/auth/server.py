@@ -9,13 +9,14 @@ def hello():
 def ls(inn):
 	lss = db.list()
 	index = int(inn)
+	
 	if not index:
 		return flask.jsonify(**lss[0])
 	else:
 		return flask.jsonify(**lss[index])
 @app.route("/auth",methods=["GET"])
 def auth():
-	reqbody = request.json
-	return flask.jsonify(**reqbody)
+	content = request.json
+	return flask.jsonify(**content)
 if __name__ == "__main__":
 	app.run()
