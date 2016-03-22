@@ -17,7 +17,7 @@ def ls(inn):
 @app.route("/auth/<hss>")
 def auth():
 	content = request.json
-	res = db.hashed(hss)
+	#res = db.hashed(hss)
 	return flask.jsonify(**content)
 if __name__ == "__main__":
 	app.run()
