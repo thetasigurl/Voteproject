@@ -4,7 +4,7 @@ import db
 app = Flask(__name__)
 @app.route("/")
 def hello():
-	return "Hello this is Flask Auth!"
+	return "Hello this is Flask Auth! CHANGES"
 
 @app.route("/list/<inn>")
 def ls(inn):
