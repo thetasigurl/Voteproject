@@ -16,9 +16,9 @@ def ls(inn):
 	else:
 		return flask.jsonify(**lss[index])
 
- @app.route("/auth",methods=["GET"])
- def auth():
- 	return "WHITE HOUSES"
+@app.route("/auth",methods=["GET"])
+def auth():
+	return "WHITE HOUSES"
 
 if __name__ == "__main__":
 	app.run()
