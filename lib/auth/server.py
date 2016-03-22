@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask
 import flask
 import db
 app = Flask(__name__)
@@ -19,7 +19,10 @@ def ls(inn):
 @app.route("/auth",methods=["GET"])
 def auth():
 	resp = request.json
-	return resp.hash
+	if hash in resp:
+		return flask.jsonify(**resp)
+	else:
+		return "NA"
 
 if __name__ == "__main__":
 	app.run()
