@@ -16,11 +16,10 @@ def ls(inn):
 	else:
 		return flask.jsonify(**lss[index])
 
-@app.route("/auth/<hss>")
-def auth(hss):
-	#content = request.json
-	#res = db.hashed(hss)
-	return "HASHING"
+ @app.route("/auth",methods=["GET"])
+ def auth():
+ 	resp = request.json
+ 	return flask.jsonify(**resp)
 
 if __name__ == "__main__":
 	app.run()
