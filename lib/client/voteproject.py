@@ -1,26 +1,20 @@
-<<<<<<< HEAD
-import sys
-=======
 
->>>>>>> da3d0497c3717feaf2b264e4da00a8fa6b70ab14
+import sys
 import Tkinter as tk # Tkinter = python2
 from Tkinter import *
 import ttk #pretty button/label library --cant get this to work
 
-<<<<<<< HEAD
 from hasher import Hasher #hasher modual
 
 LARGE_FONT= ("Verdana", 12) #global varible
 MID_FONT= ("Verdana", 10)
 
-
 #define class
-=======
+
 LARGE_FONT= ("Verdana", 12) #global varible
 
 #define class
 test='Your are here'
->>>>>>> da3d0497c3717feaf2b264e4da00a8fa6b70ab14
 #_________________________________________________________________________________________
 class voteproject(tk.Tk): #inherantance
 	def __init__(self, *args, **kwargs):#init is initialitation, args are varibles being passed though, kwargs are keywork varibles
@@ -45,7 +39,7 @@ class voteproject(tk.Tk): #inherantance
 		y0 =container.y0 = ymax/2 - container.height/2
 		self.geometry("%dx%d+%d+%d" % (container.width, container.height, x0, y0))	
 		self.frames = {}
-<<<<<<< HEAD
+
 	
 		for F in (loginpage,authpage,votepage,resultpage): #loop to have multiple frames!!! 
 			frame = F(container, self,) #created the startframe	
@@ -54,7 +48,7 @@ class voteproject(tk.Tk): #inherantance
 			frame=tk.Frame(self, background = 'white') #isnt working
 		self.show_frame(loginpage) 	
 	
-=======
+
 		for F in (loginpage,authpage,votepage,resultpage): #loop to have multiple frames!!! 
 			frame = F(container, self) #created the startframe	
 			self.frames[F] = frame
@@ -62,7 +56,7 @@ class voteproject(tk.Tk): #inherantance
 		print(test)
 		self.show_frame(loginpage) 
 	print(test)
->>>>>>> da3d0497c3717feaf2b264e4da00a8fa6b70ab14
+
 	def show_frame(self, cont):
 		
 		frame= self.frames[cont] 
@@ -121,7 +115,7 @@ class loginpage(tk.Frame): #This is the main page for log in
 		tk.Frame.__init__(self,parent)			
 			#just to see the page
 			
-<<<<<<< HEAD
+
 		label0= tk.Label(self, text="VoteProject Login", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label0.grid(row=0,column=0)
 		
@@ -170,7 +164,7 @@ class loginpage(tk.Frame): #This is the main page for log in
 		san = san.lower()
 		san = san.title()
 		return san
-=======
+
 		label= tk.Label(self, text="VoteProject Page One", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
 					
@@ -181,7 +175,7 @@ class loginpage(tk.Frame): #This is the main page for log in
         #self.labelVariable.set( self.entryVariable.get()+" (You clicked the button)" )
         #self.entry.focus_set()
         #self.entry.selection_range(0, Tkinter.END)
->>>>>>> da3d0497c3717feaf2b264e4da00a8fa6b70ab14
+
 
 #___________________________________________________________________________________________________________			
 
@@ -192,7 +186,7 @@ class authpage(tk.Frame):
 		label = tk.Label(self, text="Start Page", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
 			
-<<<<<<< HEAD
+
 		button4 = ttk.Button(self, text="Go Vote!",command=lambda: controller.show_frame(votepage))
 		button4.pack()
 		
@@ -204,12 +198,9 @@ class authpage(tk.Frame):
 		'''
 		
 		
-		
-		
-=======
 		button4 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(votepage))
 		button4.pack()
->>>>>>> da3d0497c3717feaf2b264e4da00a8fa6b70ab14
+
 class votepage(tk.Frame): 
 	def __init__(self,parent, controller):
 		tk.Frame.__init__(self, parent)
@@ -222,7 +213,7 @@ class votepage(tk.Frame):
 		
 		button3 = ttk.Button(self, text="Back to Home ",command=lambda: controller.show_frame(authpage))
 		button3.pack()
-<<<<<<< HEAD
+
 		"""
 		embed canadate wallet address
 		create address
@@ -250,9 +241,9 @@ class votepage(tk.Frame):
 
 #label = Label(root)
 #label.pack()
-=======
+
 		 
->>>>>>> da3d0497c3717feaf2b264e4da00a8fa6b70ab14
+
 		 ##CREATE RADIO BUTTONS
         #RADIO_BUTTON = [
             #("This will display A", "A"),
@@ -286,15 +277,12 @@ class resultpage(tk.Frame):
 		label.pack(pady=10,padx=10)
 			
 		button4 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(Pagetwo))
-<<<<<<< HEAD
+
 		button4.pack()
 		"""
 		thank you for voting
 		button to begining
 		"""		
-
-
-=======
 		button4.pack()		
 
 
@@ -305,7 +293,7 @@ class resultpage(tk.Frame):
 #lbl=grid(row=0,column=0,padx=5,pady=5)
 
 #the Voteproject logo for splash screen (gif) 
->>>>>>> da3d0497c3717feaf2b264e4da00a8fa6b70ab14
+
 if __name__=="__main__":
 	import os
 	app = voteproject()
