@@ -42,14 +42,14 @@ class voteproject(tk.Tk): #inherantance
 
 	
 		for F in (loginpage,authpage,votepage,resultpage): #loop to have multiple frames!!! 
-			frame = F(container, self,) #created the startframe	
+			frame = F(container, self) #created the startframe	
 			self.frames[F] = frame
 			frame.grid(row=0, column =0, sticky="nsew") #must predefine the grid, sticky =northsoutheastswest....kinda like allignment
-			frame=tk.Frame(self, background = 'white') #isnt working
+			frame=tk.Frame(self) #isnt working
 		self.show_frame(loginpage) 	
 
 
-	def show_frame(self, cont):
+	def show_frame(self, cont,*args):
 		
 		frame= self.frames[cont] 
 		frame.tkraise() #raises to the front
@@ -105,7 +105,7 @@ class splashscreen(tk.Toplevel):	#displays popup widget
 class loginpage(tk.Frame): #This is the main page for log in 
 	def __init__(self,parent,controller): 
 		tk.Frame.__init__(self,parent)			
-			#just to see the page
+		self.controller = controller 	#just to see the page
 			
 
 		label0= tk.Label(self, text="VoteProject Login", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
@@ -150,9 +150,7 @@ class loginpage(tk.Frame): #This is the main page for log in
 		hashdata = h.hash([fname,lname,email])
 		
 		#goes to next page for auth. 
-		c = controller.show_frame
-		controller.show_frame(authpage,hashdata)
-		
+		self.controller.show_frame(authpage,hashdata)
 		#retrieves and sanitizes the data 
 	def sanitize(self,inn):
 		san = str(inn) #The error is being caused by reading tomany keyboard inputs...i think
@@ -160,19 +158,21 @@ class loginpage(tk.Frame): #This is the main page for log in
 		san = san.lower()
 		san = san.title()
 		return san
-			
+	
+"""	
+class controller: 
+		 def __init__(self, *args, **kwargs):
+			controller.show_frame = self.voteproject.show_frame(*args)
+"""
 #___________________________________________________________________________________________________________			
 
 class authpage(tk.Frame): 
 	def __init__(self,parent, controller):
 		tk.Frame.__init__(self, parent)
+		self.controller = controller 	
 		
-		label = tk.Label(self, text="Start Page", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
+		label = tk.Label(self, text="Authenticaion Page", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
-			
-
-		button4 = ttk.Button(self, text="Go Vote!",command=lambda: controller.show_frame(votepage))
-		button4.pack()
 		
 		'''
 		http request
@@ -180,6 +180,9 @@ class authpage(tk.Frame):
 		if yes
 			go to next page
 		'''
+		
+		button4 = ttk.Button(self, text="Go Vote!",command=lambda: controller.show_frame(votepage))
+		button4.pack()
 		
 		
 		button4 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(votepage))
