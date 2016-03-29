@@ -4,7 +4,7 @@ import Tkinter as tk # Tkinter = python2
 from Tkinter import *
 import ttk #pretty button/label library --cant get this to work
 
-from hasher import Hasher #hasher modual
+from hasher import hasher #hasher modual
 
 LARGE_FONT= ("Verdana", 12) #global varible
 MID_FONT= ("Verdana", 10)
@@ -14,7 +14,7 @@ MID_FONT= ("Verdana", 10)
 LARGE_FONT= ("Verdana", 12) #global varible
 
 #define class
-test='Your are here'
+
 #_________________________________________________________________________________________
 class voteproject(tk.Tk): #inherantance
 	def __init__(self, *args, **kwargs):#init is initialitation, args are varibles being passed though, kwargs are keywork varibles
@@ -47,15 +47,7 @@ class voteproject(tk.Tk): #inherantance
 			frame.grid(row=0, column =0, sticky="nsew") #must predefine the grid, sticky =northsoutheastswest....kinda like allignment
 			frame=tk.Frame(self, background = 'white') #isnt working
 		self.show_frame(loginpage) 	
-	
 
-		for F in (loginpage,authpage,votepage,resultpage): #loop to have multiple frames!!! 
-			frame = F(container, self) #created the startframe	
-			self.frames[F] = frame
-			frame.grid(row=0, column =0, sticky="nsew") #must predefine the grid, sticky =northsoutheastswest....kinda like allignment
-		print(test)
-		self.show_frame(loginpage) 
-	print(test)
 
 	def show_frame(self, cont):
 		
@@ -70,7 +62,7 @@ class splashscreen(tk.Toplevel):	#displays popup widget
 	def __init__(self,parent,image=None,timeout=1000): #master or parent
 		#create splash screen with image - timeout in Millisecs 
 		
-		tk.Toplevel.__init__(self,parent,relief='raised',borderwidth=5) #master or parent..???
+		tk.Toplevel.__init__(self,parent,relief='raised',borderwidth=5,bg='white') #master or parent..???
 		self.main=parent
 		
 		#do not show main window
@@ -150,33 +142,25 @@ class loginpage(tk.Frame): #This is the main page for log in
 	def buttonfuction(self):
 	
 		fname = self.sanitize(self.fn.get())
-		#lname = self.sanitize(self.ln.get())
-		#email = self.sanitize(self.em.get())
+		lname = self.sanitize(self.ln.get())
+		email = self.sanitize(self.em.get())
 		
+		#Calls hasher.py
 		h = hasher()
-		hashdata = h.hash([fname,lname.email])
-		#controller.show_frame(authpage,hashdata))
-
+		hashdata = h.hash([fname,lname,email])
+		
+		#goes to next page for auth. 
+		c = controller.show_frame
+		controller.show_frame(authpage,hashdata)
+		
 		#retrieves and sanitizes the data 
 	def sanitize(self,inn):
-		san = raw_input(inn) #The error is being caused by reading tomany keyboard inputs...i think
+		san = str(inn) #The error is being caused by reading tomany keyboard inputs...i think
 		san = san.replace(' ', '') #replaces all white space with no space
 		san = san.lower()
 		san = san.title()
 		return san
-
-		label= tk.Label(self, text="VoteProject Page One", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
-		label.pack(pady=10,padx=10)
-					
-		button1 = ttk.Button(self, text="vist page 1",command=lambda: controller.show_frame(authpage))
-		button1.pack()
 			
-		#def OnButtonClick(self):
-        #self.labelVariable.set( self.entryVariable.get()+" (You clicked the button)" )
-        #self.entry.focus_set()
-        #self.entry.selection_range(0, Tkinter.END)
-
-
 #___________________________________________________________________________________________________________			
 
 class authpage(tk.Frame): 
@@ -279,19 +263,10 @@ class resultpage(tk.Frame):
 		button4 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(Pagetwo))
 
 		button4.pack()
-		"""
-		thank you for voting
-		button to begining
-		"""		
-		button4.pack()		
+		
+		
 
-
-#mainwindow
-#root=tk.TK()
-	
-#lbl=tk.Label(root,text="The Psudo-Centralized Block Chain Voting Platform", bg='white')
-#lbl=grid(row=0,column=0,padx=5,pady=5)
-
+#mainwindow	
 #the Voteproject logo for splash screen (gif) 
 
 if __name__=="__main__":

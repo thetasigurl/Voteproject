@@ -41,7 +41,7 @@ print data
 
 
 import httplib
-c = httplib.HTTPConnection("http://ec2-52-32-17-137.us-west-2.compute.amazonaws.com/auth")
+c = httplib.HTTPConnection("ec2-52-32-17-137.us-west-2.compute.amazonaws.com")
 c.request("GET", "/list/20")
 response = c.getresponse()
 print response.status, response.reason

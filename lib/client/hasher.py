@@ -2,7 +2,7 @@
 import sys
 import hashlib
 
-class Hasher():	
+class hasher():	
 
 	def hash(self,argv):	
 		
@@ -23,6 +23,8 @@ class Hasher():
 		
 		#print('This is the user collection hash : ' + hc)
 		
+"""
+This is for testing 
 
 def hasher(argv):
 		hsr = Hasher() #calls class Hasher
@@ -34,7 +36,7 @@ def hasher(argv):
 		
 		
 
-"""
+
 if __name__ == "__main__":
 	
 	fname = raw_input('Please enter your First Name: ')
