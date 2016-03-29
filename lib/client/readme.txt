@@ -1,1 +1,3 @@
-All things for local client application
+Becasue I fucked up client and need to fix it
+Screw git....
+Ill fix the client folder later
