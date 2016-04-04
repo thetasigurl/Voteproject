@@ -1,3 +1,40 @@
+import httplib
+import sys
+
+class request():	
+
+#this one does not work for sure. 
+	def auth(self,*args):
+		c = httplib.HTTPConnection("ec2-52-32-17-137.us-west-2.compute.amazonaws.com/auth")
+		c.request(json={"auth":hashdata)
+		response = c.getresponse()
+		print response.status, response.reason
+		data = response.read()
+		print data
+		
+		
+		
+		"""
+		if data = true
+			return true
+		else
+			return false (from there you will return to loginpage) 
+		"""
+
+
+"""
+This one works for sure! 
+
+	def auther(self,*args):
+		c = httplib.HTTPConnection("ec2-52-32-17-137.us-west-2.compute.amazonaws.com")
+		c.request("GET", "/list/0")
+		response = c.getresponse()
+		print response.status, response.reason
+		data = response.read()
+		print data
+"""
+
+
 """
 #301 error
 import httplib
@@ -36,15 +73,31 @@ print data
  'origin': 'x.x.x.x',
  'url': 'http://httpbin.org/post'}
 
+{
+
+'auth':'<auth string here>'
+}
+
+
+
+import json
+import urllib2
+
+data = {'ids': [12, 3, 4, 5, 6]}
+
+req = urllib2.Request('http://example.com/api/posts/create')
+req.add_header('Content-Type', 'application/json')
+
+response = urllib2.urlopen(req, json.dumps(data))
+
+import json
+import requests
+data = {'temperature':'24.3'}
+data_json = json.dumps(data)
+payload = {'json_payload': data_json, 'apikey': 'YOUR_API_KEY_HERE'}
+r = requests.get('http://myserver/emoncms2/api/post', data=payload)
 
 """
 
 
-import httplib
-c = httplib.HTTPConnection("ec2-52-32-17-137.us-west-2.compute.amazonaws.com")
-c.request("GET", "/list/20")
-response = c.getresponse()
-print response.status, response.reason
-data = response.read()
-print data
 
