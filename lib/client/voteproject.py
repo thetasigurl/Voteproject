@@ -15,6 +15,13 @@ MID_FONT= ("Verdana", 10)
 
 LARGE_FONT= ("Verdana", 12) #global varible
 
+view_ids = {
+	"splash": 0,
+	"login": 1,
+	"auth": 2,
+	"vote": 3,
+	"result": 4
+}
 #define class
 
 #_________________________________________________________________________________________
@@ -22,7 +29,7 @@ class voteproject(tk.Tk): #inherantance
 	def __init__(self, *args, **kwargs):#init is initialitation, args are varibles being passed though, kwargs are keywork varibles
 		
 		tk.Tk.__init__(self, *args, **kwargs) #initilize tk
-		
+		self.hashies = 0
 
 		#tk.Tk.iconbitmap(self, default= "bulb.xbm") #broken
 		tk.Tk.wm_title(self,"VoteProject: Smart Democracy") #Works
@@ -50,11 +57,17 @@ class voteproject(tk.Tk): #inherantance
 			frame=tk.Frame(self)
 		self.show_frame(loginpage) 	
 
-
+	def setHash(self,hashinfo):
+		self.hashies = hashinfo
+	def getHash(self):
+		return self.hashies
+	
 	def show_frame(self, cont):
 		
 		frame= self.frames[cont] 
 		frame.tkraise() #raises to the front
+		if(frame.id == view_ids["auth"]):
+			frame.makeRequest()
 	
 	def qp(quickPrint):
 		print(quickPrint)
@@ -63,6 +76,7 @@ class voteproject(tk.Tk): #inherantance
 			
 #___________________________________________________________________________________________
 class splashscreen(tk.Toplevel):	#displays popup widget
+	id = view_ids["splash"]
 	def __init__(self,parent,image=None,timeout=1000): #master or parent
 		#create splash screen with image - timeout in Millisecs 
 		
@@ -106,12 +120,11 @@ class splashscreen(tk.Toplevel):	#displays popup widget
         
 #___________________________________________________________________________________       		
 		
-class loginpage(tk.Frame): #This is the main page for log in 
+class loginpage(tk.Frame): #This is the main page for log in
+	id = 1
 	def __init__(self,parent,controller): 
 		tk.Frame.__init__(self,parent)			
 		self.controller = controller 	#just to see the page
-			
-
 		label0= tk.Label(self, text="VoteProject Login", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label0.grid(row=0,column=0)
 		
@@ -139,11 +152,11 @@ class loginpage(tk.Frame): #This is the main page for log in
 		entry3.grid(row=3,column=2)	
 		
 		#button calls button function 											
-		button1 = tk.Button(self,text="Login",command=lambda: self.buttonfuction())
+		button1 = tk.Button(self,text="Login",command=lambda: self.buttonfunction())
 		button1.grid(row=4,column=0)
 		
 		#returns from sanitize(), hashes (hasher.py), then goes to AuthPage 
-	def buttonfuction(self,*args):
+	def buttonfunction(self,*args):
 	
 		fname = self.sanitize(self.fn.get())
 		lname = self.sanitize(self.ln.get())
@@ -152,11 +165,11 @@ class loginpage(tk.Frame): #This is the main page for log in
 		#Calls hasher.py
 		h = hasher()
 		hashdata = h.hash([fname,lname,email])
+		self.controller.setHash(hashdata)
 		#goes to next page for auth. 
 		self.controller.show_frame(authpage)
-		
-		q = voteproject.qp()
-		q(hashdata)
+		#q = voteproject.qp()
+		#q(hashdata)
 		
 		#retrieves and sanitizes the data 
 	def sanitize(self,inn):
@@ -165,15 +178,6 @@ class loginpage(tk.Frame): #This is the main page for log in
 		san = san.lower()
 		san = san.title()
 		return san
-	
-	def set_hashdata(self, hashdata): 
-		self.hashdata = hashdata	
-	
-	def get_hashdata(self):
-		return self.hashdata
-		
-	
-	
 """	
 class controller: 
 		 def __init__(self, *args, **kwargs):
@@ -183,11 +187,11 @@ class controller:
 
 
 class authpage(tk.Frame): 
+	id = view_ids["auth"]
 	def __init__(self,parent, controller):
 		tk.Frame.__init__(self, parent)
 		#loginpage.__init__(self)
 		self.controller = controller 	
-		
 		label = tk.Label(self, text="Authenticaion Page", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
 	
@@ -203,13 +207,16 @@ class authpage(tk.Frame):
 		
 		button4 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(votepage))
 		button4.pack()
+		print("AUTHPAGE",self.controller.getHash())
+	def makeRequest(self):
+		print("AUTHPAGE",self.controller.getHash())
 		
 		
 #______________________________________________________________________________________________________________
 class votepage(tk.Frame): 
+	id = view_ids["vote"]
 	def __init__(self,parent, controller):
 		tk.Frame.__init__(self, parent)
-		
 		label = tk.Label(self, text="Page Two!!", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
 		
@@ -295,7 +302,8 @@ class votepage(tk.Frame):
         #self.submit.grid(row=3, column=0)
  
 		
-class resultpage(tk.Frame): 
+class resultpage(tk.Frame):
+	id = view_ids["result"]
 	def __init__(self,parent, controller):
 		tk.Frame.__init__(self, parent)
 		
