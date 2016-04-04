@@ -5,6 +5,8 @@ from Tkinter import *
 import ttk #pretty button/label library --cant get this to work
 
 from hasher import hasher #hasher modual
+#from request import auther #http requester + Authintication
+#from voter import chaincommands #voter multichain commands
 
 LARGE_FONT= ("Verdana", 12) #global varible
 MID_FONT= ("Verdana", 10)
@@ -45,17 +47,19 @@ class voteproject(tk.Tk): #inherantance
 			frame = F(container, self) #created the startframe	
 			self.frames[F] = frame
 			frame.grid(row=0, column =0, sticky="nsew") #must predefine the grid, sticky =northsoutheastswest....kinda like allignment
-			frame=tk.Frame(self) #isnt working
+			frame=tk.Frame(self)
 		self.show_frame(loginpage) 	
 
 
-	def show_frame(self, cont,*args):
+	def show_frame(self, cont):
 		
 		frame= self.frames[cont] 
 		frame.tkraise() #raises to the front
+	
+	def qp(quickPrint):
+		print(quickPrint)
 		
-	def qf(param): #qf is quickfunction
-		print(param)
+
 			
 #___________________________________________________________________________________________
 class splashscreen(tk.Toplevel):	#displays popup widget
@@ -139,7 +143,7 @@ class loginpage(tk.Frame): #This is the main page for log in
 		button1.grid(row=4,column=0)
 		
 		#returns from sanitize(), hashes (hasher.py), then goes to AuthPage 
-	def buttonfuction(self):
+	def buttonfuction(self,*args):
 	
 		fname = self.sanitize(self.fn.get())
 		lname = self.sanitize(self.ln.get())
@@ -148,9 +152,12 @@ class loginpage(tk.Frame): #This is the main page for log in
 		#Calls hasher.py
 		h = hasher()
 		hashdata = h.hash([fname,lname,email])
-		
 		#goes to next page for auth. 
-		self.controller.show_frame(authpage,hashdata)
+		self.controller.show_frame(authpage)
+		
+		q = voteproject.qp()
+		q(hashdata)
+		
 		#retrieves and sanitizes the data 
 	def sanitize(self,inn):
 		san = str(inn) #The error is being caused by reading tomany keyboard inputs...i think
@@ -159,6 +166,14 @@ class loginpage(tk.Frame): #This is the main page for log in
 		san = san.title()
 		return san
 	
+	def set_hashdata(self, hashdata): 
+		self.hashdata = hashdata	
+	
+	def get_hashdata(self):
+		return self.hashdata
+		
+	
+	
 """	
 class controller: 
 		 def __init__(self, *args, **kwargs):
@@ -166,40 +181,64 @@ class controller:
 """
 #___________________________________________________________________________________________________________			
 
+
 class authpage(tk.Frame): 
 	def __init__(self,parent, controller):
 		tk.Frame.__init__(self, parent)
+		#loginpage.__init__(self)
 		self.controller = controller 	
 		
 		label = tk.Label(self, text="Authenticaion Page", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
+	
+	
+		#request = request.request()
+		#request.auther([get_hashdata()])
+			#this is how my mind wants to do it.
+				#if request is true then proceed! if not go back to login page,
 		
-		'''
-		http request
-		authenticate with server
-		if yes
-			go to next page
-		'''
 		
 		button4 = ttk.Button(self, text="Go Vote!",command=lambda: controller.show_frame(votepage))
 		button4.pack()
 		
-		
 		button4 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(votepage))
 		button4.pack()
-
+		
+		
+#______________________________________________________________________________________________________________
 class votepage(tk.Frame): 
 	def __init__(self,parent, controller):
 		tk.Frame.__init__(self, parent)
 		
 		label = tk.Label(self, text="Page Two!!", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
-			
-		button2 =ttk.Button(self, text="Page One ",command=lambda: controller.show_frame(loginpage))
-		button2.pack()	
 		
-		button3 = ttk.Button(self, text="Back to Home ",command=lambda: controller.show_frame(authpage))
-		button3.pack()
+		
+		"""
+		Things for this section: 
+		Hard-code the wallet address for Andy Bennett and David Burriss
+			Toggle between a radio button to chooes
+			
+		This class will call the voter.py modual
+			It will need to call: 
+			create wallet
+			get wallet
+			createVotecoin
+			get votecoin
+			send votecoin - on button click
+				add handles
+					if none selected remain on page pop up text box
+			upon voting go to thank you page. 		
+		"""
+		
+		
+		
+		
+		
+		button1 =ttk.Button(self, text="Back To Login",command=lambda: controller.show_frame(loginpage))
+		button1.pack()	
+		
+		
 
 		"""
 		embed canadate wallet address
@@ -269,6 +308,8 @@ class resultpage(tk.Frame):
 		
 		
 
+
+#__________________________________________________________________________________________
 #mainwindow	
 #the Voteproject logo for splash screen (gif) 
 
