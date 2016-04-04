@@ -2,6 +2,7 @@ from flask import Flask, request
 import flask
 import db
 app = Flask(__name__)
+
 @app.route("/")
 def hello():
 	return "Hello this is Flask Auth! CHANGES"
@@ -15,15 +16,14 @@ def ls(inn):
 		return flask.jsonify(**lss[0])
 	else:
 		return flask.jsonify(**lss[index])
-
 @app.route("/auth",methods=["GET"])
-def auth():
+def mem():
 	resp = request.json
-	res = str(resp["hash"])
-	if hash in resp:
-		return res
+	if resp.has_key("hash"):
+		res = db.hashed(resp["hash"])
+		return str(res['hash'])
 	else:
-	#return flask.jsonify(**resp)
+#		raise InvalidUsage("No Hash",status_code=404)
 		return "NA"
 if __name__ == "__main__":
 	app.run()
