@@ -1,5 +1,6 @@
 
 import sys
+from request import request
 import Tkinter as tk # Tkinter = python2
 from Tkinter import *
 import ttk #pretty button/label library --cant get this to work
@@ -210,6 +211,8 @@ class authpage(tk.Frame):
 		print("AUTHPAGE",self.controller.getHash())
 	def makeRequest(self):
 		print("AUTHPAGE",self.controller.getHash())
+		rr = request()
+		rr.auth({"hash":self.controller.getHash()})
 		
 		
 #______________________________________________________________________________________________________________

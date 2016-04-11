@@ -16,7 +16,7 @@ def ls(inn):
 		return flask.jsonify(**lss[0])
 	else:
 		return flask.jsonify(**lss[index])
-@app.route("/auth",methods=["GET"])
+@app.route("/auth",methods=["POST"])
 def mem():
 	resp = request.json
 	if resp.has_key("hash"):

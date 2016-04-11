@@ -1,16 +1,27 @@
 import httplib
 import sys
+import json
 
 class request():	
 
 #this one does not work for sure. 
-	def auth(self,*args):
-		c = httplib.HTTPConnection("ec2-52-32-17-137.us-west-2.compute.amazonaws.com/auth")
-		c.request(json={"auth":hashdata)
+	def auth(self,hdata):
+		headers = {'Content-type': 'application/json'}
+		url = "ec2-52-32-17-137.us-west-2.compute.amazonaws.com"
+		c = httplib.HTTPConnection(url)
 		response = c.getresponse()
-		print response.status, response.reason
 		data = response.read()
 		print data
+	
+	def ping(self,number):
+		headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+		url = "ec2-52-32-17-137.us-west-2.compute.amazonaws.com"
+		c = httplib.HTTPConnection(url)
+		uurl = "/list/"+str(number)
+		c.request("GET",uurl)
+		response = c.getresponse()
+		data = response.read()
+		return json.loads(data)
 		
 		
 		
