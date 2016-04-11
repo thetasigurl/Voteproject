@@ -6,10 +6,10 @@ class request():
 
 #this one does not work for sure. 
 	def auth(self,hdata):
-		headers = {'Content-type': 'application/json'}
+		h = {'Content-type': 'application/json', 'Accept': 'text/html'}
 		url = "ec2-52-32-17-137.us-west-2.compute.amazonaws.com"
 		c = httplib.HTTPConnection(url)
-		c.request("POST","/auth",json.dumps(hdata),headers=headers)
+		c.request("POST","/auth",json.dumps(hdata),headers=h)
 		response = c.getresponse()
 		data = response.read()
 		print data
