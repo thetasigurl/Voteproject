@@ -12,7 +12,7 @@ class request():
 		c.request("POST","/auth",json.dumps(hdata),headers=h)
 		response = c.getresponse()
 		data = response.read()
-		print data
+		return data
 	
 	def ping(self,number):
 		headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
