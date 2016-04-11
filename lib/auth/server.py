@@ -22,8 +22,7 @@ def mem():
 	#return str(resp)
 	if resp.has_key("hash"):
 		res = db.hashed(resp["hash"])
-		print (resp,res)
-		return str(res)
+		return str(res['hash'])
 	else:
 #		raise InvalidUsage("No Hash",status_code=404)
 		return "NA"
