@@ -161,7 +161,7 @@ class loginpage(tk.Frame): #This is the main page for log in
 	
 		fname = self.sanitize(self.fn.get())
 		lname = self.sanitize(self.ln.get())
-		email = self.sanitize(self.em.get())
+		email = self.sanEmail(self.em.get())
 		
 		#Calls hasher.py
 		h = hasher()
@@ -178,6 +178,11 @@ class loginpage(tk.Frame): #This is the main page for log in
 		san = san.replace(' ', '') #replaces all white space with no space
 		san = san.lower()
 		san = san.title()
+		return san
+	def sanEmail(self,inn):
+		san = str(inn) #The error is being caused by reading tomany keyboard inputs...i think
+		san = san.replace(' ', '') #replaces all white space with no space
+		san = san.lower()
 		return san
 """	
 class controller: 
@@ -215,6 +220,7 @@ class authpage(tk.Frame):
 		hashr = rr.auth({"hash":self.controller.getHash()})
 		if(hashr != "NA"):
 			#next page
+			self.controller.show_frame(votepage)
 		else:
 			#display error
 			print "error"
