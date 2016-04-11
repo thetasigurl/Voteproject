@@ -19,7 +19,7 @@ def ls(inn):
 @app.route("/auth",methods=["POST"])
 def mem():
 	resp = request.json
-	return str(resp)
+	#return str(resp)
 	if resp.has_key("hash"):
 		res = db.hashed(resp["hash"])
 		return str(res['hash'])
