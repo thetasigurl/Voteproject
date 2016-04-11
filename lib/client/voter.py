@@ -14,3 +14,40 @@ class chaincommands():
 		client = ServiceProxy(rpc)
 		transcArray = client.getaddressbalances(addr)
 		return transcArray[0]["qty"]
+	
+	def	makecoin
+		client = ServiceProxy(rpc)
+		mkcoin = client.issue address name|params qty (units=1) (native-amount=0) ({"custom-field-1":"x",...})
+	
+	def connectchain():
+		client = ServiceProxy(rpc)
+		connchain = client.multichaind chain1@12.34.56.78:8571 -daemon
+		return connchain
+		
+		
+		multichain.sendAssetFrom({from: someAddress, to: someOtherAddress, asset: "zcoin", qty: 5}, (err, tx) => {
+		console.log(tx);
+})
+
+
+"""
+
+import argparse
+import chain
+parser = argparse.ArgumentParser()
+connstr = "http://jenn:password@127.0.0.1:2776"
+su (enter root password)
+
+cd /tmp
+wget http://www.multichain.com/download/multichain-1.0-alpha-19.tar.gz
+tar -xvzf multichain-1.0-alpha-19.tar.gz
+cd multichain-1.0-alpha-19
+mv multichaind multichain-cli multichain-util /usr/local/bin (to make easily accessible on the command line)
+
+exit (to return to your regular user)
+
+genisis node: 
+ test@172.31.21.118:2777
+
+to use in command line: mv multichaind multichain-cli multichain-util /usr/local/bin
+"""
