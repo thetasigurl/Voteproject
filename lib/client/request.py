@@ -9,6 +9,7 @@ class request():
 		headers = {'Content-type': 'application/json'}
 		url = "ec2-52-32-17-137.us-west-2.compute.amazonaws.com"
 		c = httplib.HTTPConnection(url)
+		c.request("POST","/auth",json.dumps(hdata),headers=headers)
 		response = c.getresponse()
 		data = response.read()
 		print data
