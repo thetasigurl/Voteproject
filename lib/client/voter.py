@@ -21,19 +21,10 @@ class chaincommands():
 		client = ServiceProxy(rpc)
 		isucoin = client.issue(address,"coin",qty)
 		return isucoin
-	
-	def connectchain():
-		client = ServiceProxy(rpc)
-		cnxtchain = client.multichaind test@172.31.21.118:2777 -daemon
-		return cnxtchain
-		
-	def send():	
-		client=sendassettoaddress(rpc)
-		sendtoadd=client.address asset qty
-		(native-amount=min-per-output)
-		(comment='') (comment-to='')
-		
-		
+
+	def send(giver,reciever,qty):
+		res = client.sendassetfrom(giver,reciever,"coin",qty)
+		return res
 
 """
 test@172.31.21.118:2777 -daemon
