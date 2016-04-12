@@ -6,14 +6,14 @@
 from jsonrpc.proxy import JSONRPCProxy
 
 class chaincommands():
-	connstr = "http://jenn:password@127.0.0.1:2776"
+	connstr = "http://jenn:password@127.0.0.1:2777"
 	def getNewWallet(self):
 		client = JSONRPCProxy.from_url(connstr)
 		newWallet = client.getnewaddress()
 		return newWallet
 	
 	def test(self):
-		client = JSONRPCProxy.from_url("http://127.0.0.1:2776")
+		client = JSONRPCProxy.from_url(connstr)
 		newWallet = client.getinfo()
 		return newWallet
 	
