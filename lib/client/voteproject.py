@@ -200,20 +200,11 @@ class authpage(tk.Frame):
 		self.controller = controller 	
 		label = tk.Label(self, text="Authenticaion Page", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
-	
-	
-		#request = request.request()
-		#request.auther([get_hashdata()])
-			#this is how my mind wants to do it.
-				#if request is true then proceed! if not go back to login page,
 		
-		
-		button4 = ttk.Button(self, text="Go Vote!",command=lambda: controller.show_frame(votepage))
-		button4.pack()
-		
-		button4 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(votepage))
+		button4 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(loginpage))
 		button4.pack()
 		print("AUTHPAGE",self.controller.getHash())
+		
 	def makeRequest(self):
 		print("AUTHPAGE",self.controller.getHash())
 		rr = request()

@@ -10,27 +10,32 @@ class chaincommands():
 		client = ServiceProxy(rpc)
 		newWallet = client.getnewaddress()
 		return newWallet
-	def getVotesFromWallet(rpc,addr):
+	
+	def getVotesFromWallet(rpc,addr): #dont need good for testing
 		client = ServiceProxy(rpc)
 		transcArray = client.getaddressbalances(addr)
 		return transcArray[0]["qty"]
 	
-	def	makecoin
+	def	issuecoin():
 		client = ServiceProxy(rpc)
-		mkcoin = client.issue address name|params qty (units=1) (native-amount=0) ({"custom-field-1":"x",...})
+		isucoin = client.issue address name|params qty (units=1) (native-amount=0) ({"custom-field-1":"x",...})
+		return isucoin
 	
 	def connectchain():
 		client = ServiceProxy(rpc)
-		connchain = client.multichaind chain1@12.34.56.78:8571 -daemon
-		return connchain
+		cnxtchain = client.multichaind test@172.31.21.118:2777 -daemon
+		return cnxtchain
+		
+	def send():	
+		client=sendassettoaddress(rpc)
+		sendtoadd=client.address asset qty
+		(native-amount=min-per-output)
+		(comment='') (comment-to='')
 		
 		
-		multichain.sendAssetFrom({from: someAddress, to: someOtherAddress, asset: "zcoin", qty: 5}, (err, tx) => {
-		console.log(tx);
-})
-
 
 """
+test@172.31.21.118:2777 -daemon
 
 import argparse
 import chain
