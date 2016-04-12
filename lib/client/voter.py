@@ -3,33 +3,33 @@
 #all local calls to multichain will be done here
 #and called from the votepage. simple enough.
 
-from jsonrpc import ServiceProxy
+from jsonrpc.proxy import JSONRPCProxy
 
 class chaincommands():
 	connstr = "http://jenn:password@127.0.0.1:2776"
 	def getNewWallet():
-		client = ServiceProxy(connstr)
+		client = JSONRPCProxy.from_url(connstr)
 		newWallet = client.getnewaddress()
 		return newWallet
 	
 	def test():
-		client = ServiceProxy("http://127.0.0.1:2776")
+		client = JSONRPCProxy.from_url("http://127.0.0.1:2776")
 		newWallet = client.getinfo()
 		return newWallet
 	
 	def getVotesFromWallet(addr): #dont need good for testing
-		client = ServiceProxy(connstr)
+		client = JSONRPCProxy.from_url(connstr)
 		transcArray = client.getaddressbalances(addr)
 		return transcArray[0]["qty"]
 	
 	#takes address within wallet and issues a coin to address. return value is the txid
 	def	issuecoin(address,qty):
-		client = ServiceProxy(connstr)
+		client = JSONRPCProxy.from_url(connstr)
 		isucoin = client.issue(address,"coin",qty)
 		return isucoin
 
 	def send(giver,reciever,qty):
-		client = ServiceProxy(connstr)
+		client = JSONRPCProxy.from_url(connstr)
 		res = client.sendassetfrom(giver,reciever,"coin",qty)
 		return res
 
