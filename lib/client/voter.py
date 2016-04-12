@@ -12,6 +12,11 @@ class chaincommands():
 		newWallet = client.getnewaddress()
 		return newWallet
 	
+	def test():
+		client = ServiceProxy("http://127.0.0.1:2776")
+		newWallet = client.getinfo()
+		return newWallet
+	
 	def getVotesFromWallet(addr): #dont need good for testing
 		client = ServiceProxy(connstr)
 		transcArray = client.getaddressbalances(addr)
