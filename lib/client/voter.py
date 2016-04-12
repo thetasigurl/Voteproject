@@ -6,30 +6,31 @@
 from jsonrpc.proxy import JSONRPCProxy
 
 class chaincommands():
-	connstr = "http://jenn:password@127.0.0.1:2777"
+	def __init__(self):
+		self.connstr = "http://jenn:password@127.0.0.1:2777"
 	def getNewWallet(self):
-		client = JSONRPCProxy.from_url(connstr)
+		client = JSONRPCProxy.from_url(self.connstr)
 		newWallet = client.getnewaddress()
 		return newWallet
 	
 	def test(self):
-		client = JSONRPCProxy.from_url(connstr)
+		client = JSONRPCProxy.from_url(self.connstr)
 		newWallet = client.getinfo()
 		return newWallet
 	
 	def getVotesFromWallet(self,addr): #dont need good for testing
-		client = JSONRPCProxy.from_url(connstr)
+		client = JSONRPCProxy.from_url(self.connstr)
 		transcArray = client.getaddressbalances(addr)
 		return transcArray[0]["qty"]
 	
 	#takes address within wallet and issues a coin to address. return value is the txid
 	def	issuecoin(self,address,qty):
-		client = JSONRPCProxy.from_url(connstr)
+		client = JSONRPCProxy.from_url(self.connstr)
 		isucoin = client.issue(address,"coin",qty)
 		return isucoin
 
 	def send(self,giver,reciever,qty):
-		client = JSONRPCProxy.from_url(connstr)
+		client = JSONRPCProxy.from_url(self.connstr)
 		res = client.sendassetfrom(giver,reciever,"coin",qty)
 		return res
 
