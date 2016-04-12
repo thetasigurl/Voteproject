@@ -16,9 +16,10 @@ class chaincommands():
 		transcArray = client.getaddressbalances(addr)
 		return transcArray[0]["qty"]
 	
-	def	issuecoin():
+	#takes address within wallet and issues a coin to address. return value is the txid
+	def	issuecoin(address,qty):
 		client = ServiceProxy(rpc)
-		isucoin = client.issue address name|params qty (units=1) (native-amount=0) ({"custom-field-1":"x",...})
+		isucoin = client.issue(address,"coin",qty)
 		return isucoin
 	
 	def connectchain():
