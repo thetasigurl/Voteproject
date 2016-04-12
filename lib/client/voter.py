@@ -6,23 +6,25 @@
 from jsonrpc import ServiceProxy
 
 class chaincommands():
-	def getNewWallet(rpc):
-		client = ServiceProxy(rpc)
+	connstr = "http://jenn:password@127.0.0.1:2776"
+	def getNewWallet():
+		client = ServiceProxy(connstr)
 		newWallet = client.getnewaddress()
 		return newWallet
 	
-	def getVotesFromWallet(rpc,addr): #dont need good for testing
-		client = ServiceProxy(rpc)
+	def getVotesFromWallet(addr): #dont need good for testing
+		client = ServiceProxy(connstr)
 		transcArray = client.getaddressbalances(addr)
 		return transcArray[0]["qty"]
 	
 	#takes address within wallet and issues a coin to address. return value is the txid
 	def	issuecoin(address,qty):
-		client = ServiceProxy(rpc)
+		client = ServiceProxy(connstr)
 		isucoin = client.issue(address,"coin",qty)
 		return isucoin
 
 	def send(giver,reciever,qty):
+		client = ServiceProxy(connstr)
 		res = client.sendassetfrom(giver,reciever,"coin",qty)
 		return res
 

@@ -1,6 +1,7 @@
 
 import sys
 from request import request
+from voter import chaincommands
 import Tkinter as tk # Tkinter = python2
 from Tkinter import *
 import ttk #pretty button/label library --cant get this to work
@@ -31,6 +32,7 @@ class voteproject(tk.Tk): #inherantance
 		
 		tk.Tk.__init__(self, *args, **kwargs) #initilize tk
 		self.hashies = 0
+		self.address = ""
 
 		#tk.Tk.iconbitmap(self, default= "bulb.xbm") #broken
 		tk.Tk.wm_title(self,"VoteProject: Smart Democracy") #Works
@@ -63,12 +65,19 @@ class voteproject(tk.Tk): #inherantance
 	def getHash(self):
 		return self.hashies
 	
+	def setAddress(self,add):
+		self.address = add
+	def getAddress(self):
+		return self.address
+	
 	def show_frame(self, cont):
 		
 		frame= self.frames[cont] 
 		frame.tkraise() #raises to the front
 		if(frame.id == view_ids["auth"]):
 			frame.makeRequest()
+		elif(frame.id == view_ids["vote"]):
+			frame.initVoteProcess()
 	
 	def qp(quickPrint):
 		print(quickPrint)
@@ -224,8 +233,6 @@ class votepage(tk.Frame):
 		tk.Frame.__init__(self, parent)
 		label = tk.Label(self, text="Page Two!!", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
-		
-		
 		"""
 		Things for this section: 
 		Hard-code the wallet address for Andy Bennett and David Burriss
@@ -241,15 +248,19 @@ class votepage(tk.Frame):
 				add handles
 					if none selected remain on page pop up text box
 			upon voting go to thank you page. 		
-		"""
-		
-		
-		
-		
-		
+		"""	
 		button1 =ttk.Button(self, text="Back To Login",command=lambda: controller.show_frame(loginpage))
 		button1.pack()	
-		
+	def initVoteProcess():
+		cc = chaincommands()
+		self.controller.setAddress(cc.getNewWallet());
+	def makeVote(cadd):
+		cc = chaincommands()
+		vadd = self.controller.getAddress()
+		if(cc.issuecoin(vadd,1)):
+			cc.send(vadd,cadd,1)
+			return True
+		else: return False
 		
 
 		"""
