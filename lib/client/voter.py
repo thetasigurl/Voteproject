@@ -2,12 +2,13 @@
 #this is the voting modual. 
 #all local calls to multichain will be done here
 #and called from the votepage. simple enough.
-
+import json
 from jsonrpc import ServiceProxy
 
 class chaincommands():
 	def __init__(self):
 		self.connstr = "http://jenn:password@127.0.0.1:2776"
+	
 	def getNewWallet(self):
 		client = ServiceProxy(rpc)
 		newWallet = client.getnewaddress()
@@ -18,7 +19,7 @@ class chaincommands():
 		newWallet = client.getinfo()
 		return newWallet
 	
-	def getVotesFromWallet(self,addr): #dont need good for testing
+	def getVotesFromWallet(self,addr): #dont need... just good for testing
 		client = ServiceProxy(rpc)
 		transcArray = client.getaddressbalances(addr)
 		return transcArray[0]["qty"]
@@ -33,26 +34,3 @@ class chaincommands():
 		client = ServiceProxy(rpc)
 		res = client.sendassetfrom(giver,reciever,"coin",qty)
 		return res
-
-"""
-test@172.31.21.118:2777 -daemon
-
-import argparse
-import chain
-parser = argparse.ArgumentParser()
-connstr = "http://jenn:password@127.0.0.1:2776"
-su (enter root password)
-
-cd /tmp
-wget http://www.multichain.com/download/multichain-1.0-alpha-19.tar.gz
-tar -xvzf multichain-1.0-alpha-19.tar.gz
-cd multichain-1.0-alpha-19
-mv multichaind multichain-cli multichain-util /usr/local/bin (to make easily accessible on the command line)
-
-exit (to return to your regular user)
-
-genisis node: 
- test@172.31.21.118:2777
-
-to use in command line: mv multichaind multichain-cli multichain-util /usr/local/bin
-"""

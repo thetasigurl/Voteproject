@@ -1,14 +1,14 @@
 
 import sys
-from request import request
-from voter import chaincommands
 import Tkinter as tk # Tkinter = python2
-from Tkinter import *
 import ttk #pretty button/label library --cant get this to work
-
+import json
+from Tkinter import *
 from hasher import hasher #hasher modual
-#from request import auther #http requester + Authintication
-#from voter import chaincommands #voter multichain commands
+from request import request #authintiation modual
+from jsonrpc import ServiceProxy #jsonrpc library 
+from voter import chaincommands #multichain api commands
+
 
 LARGE_FONT= ("Verdana", 12) #global varible
 MID_FONT= ("Verdana", 10)
@@ -79,8 +79,8 @@ class voteproject(tk.Tk): #inherantance
 		elif(frame.id == view_ids["vote"]):
 			frame.initVoteProcess()
 	
-	def qp(quickPrint):
-		print(quickPrint)
+	#def qp(quickPrint):
+		#print(quickPrint)
 		
 
 			
@@ -178,12 +178,11 @@ class loginpage(tk.Frame): #This is the main page for log in
 		self.controller.setHash(hashdata)
 		#goes to next page for auth. 
 		self.controller.show_frame(authpage)
-		#q = voteproject.qp()
-		#q(hashdata)
+	
 		
 		#retrieves and sanitizes the data 
 	def sanitize(self,inn):
-		san = str(inn) #The error is being caused by reading tomany keyboard inputs...i think
+		san = str(inn) 
 		san = san.replace(' ', '') #replaces all white space with no space
 		san = san.lower()
 		san = san.title()
@@ -193,11 +192,7 @@ class loginpage(tk.Frame): #This is the main page for log in
 		san = san.replace(' ', '') #replaces all white space with no space
 		san = san.lower()
 		return san
-"""	
-class controller: 
-		 def __init__(self, *args, **kwargs):
-			controller.show_frame = self.voteproject.show_frame(*args)
-"""
+
 #___________________________________________________________________________________________________________			
 
 
@@ -205,13 +200,12 @@ class authpage(tk.Frame):
 	id = view_ids["auth"]
 	def __init__(self,parent, controller):
 		tk.Frame.__init__(self, parent)
-		#loginpage.__init__(self)
 		self.controller = controller 	
 		label = tk.Label(self, text="Authenticaion Page", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
 		
-		button4 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(loginpage))
-		button4.pack()
+		button1 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(loginpage))
+		button1.pack()
 		print("AUTHPAGE",self.controller.getHash())
 		
 	def makeRequest(self):
@@ -231,104 +225,72 @@ class votepage(tk.Frame):
 	id = view_ids["vote"]
 	def __init__(self,parent, controller):
 		tk.Frame.__init__(self, parent)
-		label = tk.Label(self, text="Page Two!!", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
+		self.controller = controller
+		
+		label = tk.Label(self, text="Vote Project", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
-		"""
-		Things for this section: 
-		Hard-code the wallet address for Andy Bennett and David Burriss
-			Toggle between a radio button to chooes
-			
-		This class will call the voter.py modual
-			It will need to call: 
-			create wallet
-			get wallet
-			createVotecoin
-			get votecoin
-			send votecoin - on button click
-				add handles
-					if none selected remain on page pop up text box
-			upon voting go to thank you page. 		
-		"""	
-		button1 =ttk.Button(self, text="Back To Login",command=lambda: controller.show_frame(loginpage))
+		
+		#R1 contains the hard coded wallet address for A.Bennet
+		var=tk.StringVar() 
+		R1 = Radiobutton(self, text="Andy Bennet", variable=var, value="1",command=lambda: controller.setAddress(var))
+		R1.pack( anchor = W )
+		
+		#R2 contains the hard coded wallet address for Dr.Burris
+		R2 = Radiobutton(self, text="Dr. Burris", variable=var,value="4",command=lambda: controller.setAddress(var))
+		R2.pack( anchor = W )
+
+		button1 =tk.Button(self, text="Submit Vote",command=lambda: self.buttonfunction())
 		button1.pack()	
-	def initVoteProcess():
-		cc = chaincommands()
-		self.controller.setAddress(cc.getNewWallet());
-	def makeVote(cadd):
+	
+	
+	def setAddress(self,var):
+		self.selection =(self.var.get())
+	
+	def getAddress():
+		return self.selection
+	
+	def buttonfunction(self):
+		#logic caller funtion. 
+		
+		#button function doesnt have to push a variable. 
+		#voteadd = 'null'
+		#voteadd = str(self.getAddress(selection.get()))
+		
+		#Calls makevote funciton
+		print self.controller.getAddress()
+		print ("the contents of radio button is:" + self.controller.getAddress())
+		self.makeVote()
+		
+		#after voting returns to button function
+		#goes to next page for resultpage
+		self.controller.show_frame(resultpage)
+
+	def makeVote(self):
 		cc = chaincommands()
 		vadd = self.controller.getAddress()
+		#vadd = str(cadd)
 		if(cc.issuecoin(vadd,1)):
 			cc.send(vadd,cadd,1)
 			return True
 		else: return False
+	
+	def initVoteProcess(self):
+		cc = chaincommands()
+		self.controller.setAddress(cc.getNewWallet());
 		
-
-		"""
-		embed canadate wallet address
-		create address
-		reward coin
-		"""
-		
-		
-#def sel():
-#selection = "You selected the option " + str(var.get())
-#label.config(text = selection)
-
-#root = Tk()
-#var = IntVar()
-#R1 = Radiobutton(root, text="Option 1", variable=var, value=1,
-	  #command=sel)
-#R1.pack( anchor = W )
-
-#R2 = Radiobutton(root, text="Option 2", variable=var, value=2,
-	  #command=sel)
-#R2.pack( anchor = W )
-
-#R3 = Radiobutton(root, text="Option 3", variable=var, value=3,
-	  #command=sel)
-#R3.pack( anchor = W)
-
-#label = Label(root)
-#label.pack()
-
-		 
-
-		 ##CREATE RADIO BUTTONS
-        #RADIO_BUTTON = [
-            #("This will display A", "A"),
-            #("This will display B","B")
-        #]
- 
-        ##initialize a variable to store the selected value of the radio buttons
-        ##set it to A by default
-        #self.radio_var = StringVar()
-        #self.radio_var.set("A")
- 
-        ##create a loop to display the RADIO_BUTTON
-        #i=0
-        #for text, item in RADIO_BUTTON:
-            ##setup each radio button. variable is set to the self.radio_var
-            ##and the value is set to the "item" in the for loop
-            #self.radio = Radiobutton(self.master, text=text, variable=radio_var, value=item)
-            #self.radio.grid(row=2, column=i)
-            #i += 1
- 
-        ##now for a button
-        #self.submit = Button(self.master, text="Execute!", command=self.start_processing, fg="red")
-        #self.submit.grid(row=3, column=0)
  
 		
 class resultpage(tk.Frame):
 	id = view_ids["result"]
 	def __init__(self,parent, controller):
 		tk.Frame.__init__(self, parent)
-		
-		label = tk.Label(self, text="Start Page", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
+		label = tk.Label(self, text="Thank You", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
-			
-		button4 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(Pagetwo))
-
-		button4.pack()
+		
+		
+			#ends the voting process. starts over at beginining 
+		button1 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(Loginpage))
+		button1.pack()
 		
 		
 
