@@ -76,8 +76,8 @@ class voteproject(tk.Tk): #inherantance
 		frame.tkraise() #raises to the front
 		if(frame.id == view_ids["auth"]):
 			frame.makeRequest()
-		elif(frame.id == view_ids["vote"]):
-			frame.initVoteProcess()
+		#elif(frame.id == view_ids["vote"]):
+		#	frame.initVoteProcess()
 	
 	#def qp(quickPrint):
 		#print(quickPrint)
@@ -267,18 +267,15 @@ class votepage(tk.Frame):
 
 	def makeVote(self):
 		cc = chaincommands()
-		vadd = self.controller.getAddress()
+		#Vadd is voter address
+		#Cadd is candidate address
+		vadd = cc.getNewWallet()
+		cadd = self.controller.getAddress()
 		#vadd = str(cadd)
 		if(cc.issuecoin(vadd,1)):
 			cc.send(vadd,cadd,1)
 			return True
 		else: return False
-	
-	def initVoteProcess(self):
-		cc = chaincommands()
-		self.controller.setAddress(cc.getNewWallet());
-		
- 
 		
 class resultpage(tk.Frame):
 	id = view_ids["result"]
