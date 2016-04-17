@@ -258,7 +258,7 @@ class votepage(tk.Frame):
 		
 		#Calls makevote funciton
 		print self.controller.getAddress()
-		print ("the contents of radio button is:" + self.controller.getAddress())
+		#print ("the contents of radio button is:" + self.controller.getAddress())
 		self.makeVote()
 		
 		#after voting returns to button function
@@ -273,7 +273,7 @@ class votepage(tk.Frame):
 		cadd = self.controller.getAddress()
 		#vadd = str(cadd)
 		if(cc.issuecoin(vadd,1)):
-			cc.send(vadd,cadd,1)
+			#cc.send(vadd,cadd,1)
 			return True
 		else: return False
 		
@@ -286,7 +286,7 @@ class resultpage(tk.Frame):
 		
 		
 			#ends the voting process. starts over at beginining 
-		button1 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(Loginpage))
+		button1 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(loginpage))
 		button1.pack()
 		
 		
