@@ -53,7 +53,6 @@ class Savoir():
             'method': self.__rpc_call,
             'id': Savoir.__id_count}
         url = ''.join(['http://', self.__rpchost, ':', self.__rpcport])
-        print(url)
 	encoded = json.dumps(postdata)
         log.info("Request: %s" % encoded)
         r = requests.post(url, data=encoded, headers=self.__headers)

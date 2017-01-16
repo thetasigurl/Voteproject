@@ -1,18 +1,20 @@
 import Tkinter as tk # Tkinter = python2
 from Tkinter import * #pretty button/label library --cant get this to work
 import ttk
+import argparse
+import rpc.Savoir as Savoir
+import json
 LARGE_FONT= ("Verdana", 12) #global varible
 
 #define class
 test='Your are here'
 #_________________________________________________________________________________________
 class voteproject(tk.Tk): #inherantance
-	def __init__(self, *args, **kwargs):#init is initialitation, args are varibles being passed though, kwargs are keywork varibles
-		
-		tk.Tk.__init__(self, *args, **kwargs) #initilize tk
-		
-
-		#tk.Tk.iconbitmap(self, default= "bulb.xbm") #broken
+	localconn = None
+	def __init__(self, *args, **kwargs):#init is initialitation, args are varibles being passed though, kwargs are keywork varible
+		tk.Tk.__init__(self) #initilize tk
+		self.local = kwargs['mcargs']
+		#tk.Tk.iconbitmap(self, default= "bulb.x]m") #broken
 		tk.Tk.wm_title(self,"VoteProject: Smart Democracy") #Works
 		
 		container = tk.Frame(self) #made a frame
@@ -30,12 +32,11 @@ class voteproject(tk.Tk): #inherantance
 		self.geometry("%dx%d+%d+%d" % (container.width, container.height, x0, y0))	
 		self.frames = {}
 		for F in (loginpage,authpage,votepage,resultpage): #loop to have multiple frames!!! 
-			frame = F(container, self) #created the startframe	
+			frame = F(container, self) #created the startframe
 			self.frames[F] = frame
 			frame.grid(row=0, column =0, sticky="nsew") #must predefine the grid, sticky =northsoutheastswest....kinda like allignment
 		print(test)
 		self.show_frame(loginpage) 
-	print(test)
 	def show_frame(self, cont):
 		
 		frame= self.frames[cont] 
@@ -93,13 +94,11 @@ class loginpage(tk.Frame): #This is the main page for log in
 	def __init__(self,parent,controller): 
 		tk.Frame.__init__(self,parent)			
 			#just to see the page
-			
+		print(controller.local)
 		label= tk.Label(self, text="VoteProject Page One", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
 					
 		button1 = tk.Button(self, text="vist page 1",command=lambda: controller.show_frame(authpage))
-		button1.pack()
-			
 		#def OnButtonClick(self):
         #self.labelVariable.set( self.entryVariable.get()+" (You clicked the button)" )
         #self.entry.focus_set()
@@ -174,8 +173,29 @@ class resultpage(tk.Frame):
 #the Voteproject logo for splash screen (gif) 
 if __name__=="__main__":
 	import os
-	app = voteproject()
-	image_file="voteproject.gif"
-	assert os.path.exists(image_file)
-	s=splashscreen(app,timeout=2000,image=image_file)					
-	app.mainloop() #mainscreen wont stop
+	parser = argparse.ArgumentParser(description="A MultiChain enabled application for voting.")
+	parser.add_argument("-lnuser",dest="lnuser",action="store", default="multichainrpc",
+			help="User for the MultiChain RPC Local Node Client")
+	parser.add_argument("-lnpass",dest="lnpass",action="store", required= "True", 
+			help="Password for the MultiChain RPC Local Node Client")
+	parser.add_argument("-lnhost",dest="lnhost",action="store", required= "True", 
+			help="Host Address for the MultiChain RPC Local Node Client")
+	parser.add_argument("-lnport",dest="lnport",action="store", required= "True", 
+			help="Host Port for the MultiChain RPC Local Node Client")
+	parser.add_argument("-lname",dest="lname",action="store", required= "True", 
+			help="Chain Name for the MultiChain RPC Local Node Client")
+	parser.add_argument("-raddr",dest="raddr",action="store", required= "True", 
+			help="Address for the MultiChain RPC Remote Node Client")
+
+	args = parser.parse_args()
+	try:
+		api = Savoir.Savoir(args.lnuser,args.lnpass,args.lnhost,args.lnport,args.lname)
+		api.ping()
+		app = voteproject(mcargs=args)
+		image_file="voteproject.gif"
+		assert os.path.exists(image_file)
+		s=splashscreen(app,timeout=2000,image=image_file)					
+		app.mainloop() #mainscreen wont stop
+	except Exception, e:
+		raise e
+	
