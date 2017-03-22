@@ -1,10 +1,10 @@
 import Savoir
 import json
-rpcuser = "multichainrpc"
-rpcpass = "GmpMy3KKcQZ4yyYews9jahxjpDMLqSCRzwhkAwTthg2X"
+rpcuser = "jenn"
+rpcpass = "password"
 rpchost = "192.168.1.102"
-rpcport = "4396"
-chain = "exodus"
+rpcport = "9266"
+chain = "john"
 
 api = Savoir.Savoir(rpcuser,rpcpass,rpchost,rpcport,chain)
 print(json.dumps(api.getinfo(),sort_keys=True,indent=4)) 
