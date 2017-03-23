@@ -1,8 +1,8 @@
-import Savoir
 import json
-rpcuser = "jenn"
-rpcpass = "password"
-rpchost = "192.168.1.102"
+import Savoir
+rpcuser = "multichainrpc"
+rpcpass = "CWssZg4tGBdeeCKgEJW6Z2dw9RBrQMnKWV4yuWjtVSrj"
+rpchost = "localhost"
 rpcport = "9266"
 chain = "john"
 

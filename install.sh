@@ -1,5 +1,5 @@
 #! /bin/bash
-
+pip install savoir
 ip=''
 oopt= ' -daemon -rpcuser="jenn" -rpcpassword="password"'
 cmd=''

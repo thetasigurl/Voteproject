@@ -3,11 +3,11 @@ import sys
 import Tkinter as tk # Tkinter = python2
 import ttk #pretty button/label library --cant get this to work
 import json
+import argparse
+import Savoir
 from Tkinter import *
 from hasher import hasher #hasher modual
 from request import request #authintiation modual
-from jsonrpc import ServiceProxy #jsonrpc library 
-from voter import chaincommands #multichain api commands
 
 
 LARGE_FONT= ("Verdana", 12) #global varible
@@ -43,8 +43,8 @@ class voteproject(tk.Tk): #inherantance
 		container.grid_columnconfigure(0, weight=1)	
 
 				#creates frame size and centers with screen
-		container.width = container.winfo_screenwidth()/2
-		container.height = container.winfo_screenheight()/2
+		container.width = container.winfo_screenwidth()/4
+		container.height = container.winfo_screenheight()/4
 		xmax= container.winfo_screenwidth()
 		ymax= container.winfo_screenheight()
 		x0 =container.x0 = xmax/2 - container.width/2
@@ -56,7 +56,8 @@ class voteproject(tk.Tk): #inherantance
 		for F in (loginpage,authpage,votepage,resultpage): #loop to have multiple frames!!! 
 			frame = F(container, self) #created the startframe	
 			self.frames[F] = frame
-			frame.grid(row=0, column =0, sticky="nsew") #must predefine the grid, sticky =northsoutheastswest....kinda like allignment
+			frame.grid(row=0, column =0, sticky="nsew") 
+			#must predefine the grid, sticky =northsoutheastswest....kinda like allignment
 			frame=tk.Frame(self)
 		self.show_frame(loginpage) 	
 
@@ -176,7 +177,7 @@ class loginpage(tk.Frame): #This is the main page for log in
 		h = hasher()
 		hashdata = h.hash([fname,lname,email])
 		self.controller.setHash(hashdata)
-		#goes to next page for auth. 
+		#goes to next page for auth.
 		self.controller.show_frame(authpage)
 	
 		
@@ -201,15 +202,17 @@ class authpage(tk.Frame):
 	def __init__(self,parent, controller):
 		tk.Frame.__init__(self, parent)
 		self.controller = controller 	
-		label = tk.Label(self, text="Authenticaion Page", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
+		label = tk.Label(self, text="Authentication Page", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
-		
+		status = tk.Label(self,text="Authenticating your information...")
+		status.pack(pady=10)	
 		button1 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(loginpage))
 		button1.pack()
 		print("AUTHPAGE",self.controller.getHash())
 		
 	def makeRequest(self):
-		print("AUTHPAGE",self.controller.getHash())
+		print("AUTHPAGE EROM",self.controller.getHash())
+"""	
 		rr = request()
 		hashr = rr.auth({"hash":self.controller.getHash()})
 		if(hashr != "NA"):
@@ -218,7 +221,7 @@ class authpage(tk.Frame):
 		else:
 			#display error
 			print "error"
-		
+"""		
 		
 #______________________________________________________________________________________________________________
 class votepage(tk.Frame): 
@@ -298,8 +301,31 @@ class resultpage(tk.Frame):
 
 if __name__=="__main__":
 	import os
-	app = voteproject()
-	image_file="voteproject.gif"
-	assert os.path.exists(image_file)
-	s=splashscreen(app,timeout=2000,image=image_file)					
-	app.mainloop() #mainscreen wont stop
+	parser = argparse.ArgumentParser(description="A MultiChain enabled application for voting.")
+        parser.add_argument("-lnuser",dest="lnuser",action="store", default="multichainrpc",
+                        help="User for the MultiChain RPC Local Node Client")
+        parser.add_argument("-lnpass",dest="lnpass",action="store", required= "True",
+                        help="Password for the MultiChain RPC Local Node Client")
+        parser.add_argument("-lnhost",dest="lnhost",action="store", required= "True",
+                        help="Host Address for the MultiChain RPC Local Node Client")
+        parser.add_argument("-lnport",dest="lnport",action="store", required= "True",
+                        help="Host Port for the MultiChain RPC Local Node Client")
+        parser.add_argument("-lname",dest="lname",action="store", required= "True",
+                        help="Chain Name for the MultiChain RPC Local Node Client")
+        parser.add_argument("-raddr",dest="raddr",action="store", required= "True",
+                        help="Address for the MultiChain RPC Remote Node Client")
+	args = parser.parse_args()
+        try:
+                api = Savoir.Savoir(args.lnuser,args.lnpass,args.lnhost,args.lnport,args.lname)
+                print(api.getinfo())
+                app = voteproject()
+		#app = voteproject(mcargs=args)
+                image_file= os.path.join(os.path.dirname(__file__),"voteproject.gif")
+                assert os.path.exists(image_file)
+                s=splashscreen(app,timeout=2000,image=image_file)
+                app.mainloop() #mainscreen wont stop
+        except Exception, e:
+		if(e.request.body):
+			print("Local MC instance is not running")
+		raise e
+
