@@ -2,7 +2,7 @@ import Tkinter as tk # Tkinter = python2
 from Tkinter import * #pretty button/label library --cant get this to work
 import ttk
 import argparse
-import rpc.Savoir as Savoir
+import Savoir
 import json
 LARGE_FONT= ("Verdana", 12) #global varible
 
