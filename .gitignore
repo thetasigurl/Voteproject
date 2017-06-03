@@ -1,4 +1,4 @@
 lib/client/*.pyc
 router/node_modules
-
+router/.env
 *.pyc

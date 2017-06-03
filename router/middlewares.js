@@ -17,8 +17,6 @@ module.exports = {
 		}, (err,value) => {
 			if(err) return res.status(400).send(err);
 			next();
-		}
-	},
-	
-
+		});
+	}
 }

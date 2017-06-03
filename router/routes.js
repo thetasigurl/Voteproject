@@ -1,4 +1,4 @@
-var express = requre("express");
+var express = require("express");
 var router = express.Router();
 var voter = require("./voterlib.js");
 var mids = require("./middlewares.js");

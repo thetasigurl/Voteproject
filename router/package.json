@@ -1,15 +1,15 @@
 {
-	"name":"voteproject-authrouter",
-	"dependencies":{
-		"body-parser": "^1.17.1",
-    		"cookie-parser": "^1.4.3",
-    		"dotenv": "0.0.1",
-    		"express": "^4.15.2",
-    		"express-session": "^1.15.1",
-    		"joi": "^10.2.2",
-		"mongoose":"4.7.3",
-		"morgan": "^1.8.1",
-		"request":"^2.80.0"
-	}
-
+  "name": "voteproject-authrouter",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "celebrate": "^4.0.1",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "0.0.1",
+    "express": "^4.15.2",
+    "express-session": "^1.15.1",
+    "joi": "^10.2.2",
+    "mongoose": "4.7.3",
+    "morgan": "^1.8.1",
+    "request": "^2.80.0"
+  }
 }

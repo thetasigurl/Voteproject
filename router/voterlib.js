@@ -21,7 +21,7 @@ module.exports = {
 				return callback(null,hash);
 			});
 		});
-	}
+	},
 	voterHasVoted:(h,callback) => {
 		module.exports.voterExists(h,(err,ex) => {
                         if(err) return callback(err);
