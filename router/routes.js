@@ -38,5 +38,14 @@ router.get("/ping",(req,res) => {
 	    return res.status(200).send(info);
 	});
 });
+router.post("/api/chain",mids.nodeQuery,(req,res) => {
+	mc.grant({
+		addresses: req.query.a,
+		permissions: "votecoin.issue"
+	},(err,org) => {
+		if(err) return res.status(500).send(err);
+	    return res.status(200).send(org);
+	});
+});
 
 module.exports = router;

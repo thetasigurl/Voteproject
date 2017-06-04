@@ -18,5 +18,14 @@ module.exports = {
 			if(err) return res.status(400).send(err);
 			next();
 		});
+	},
+	nodeQuery:(req,res,next) => {
+		Joi.validate(req.query,
+		{
+			a: Joi.string().required()
+		}, (err,value) => {
+			if(err) return res.status(400).send(err);
+			next();
+		});	
 	}
 }
