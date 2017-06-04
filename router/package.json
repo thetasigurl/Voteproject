@@ -10,6 +10,7 @@
     "joi": "^10.2.2",
     "mongoose": "4.7.3",
     "morgan": "^1.8.1",
+    "multichain-node": "^2.1.1-version1.0-beta1",
     "request": "^2.80.0"
   }
 }

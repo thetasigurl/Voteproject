@@ -2,6 +2,12 @@ var express = require("express");
 var router = express.Router();
 var voter = require("./voterlib.js");
 var mids = require("./middlewares.js");
+var mc = require("multichain-node")({
+	port: process.env.MCPORT,
+	host: "localhost",
+	user: "multichainrpc",
+	pass: process.env.MCPASS
+})
 router.get("/",(req,res)=> {
 	res.status(200).send("ROUTER IS LIVE");
 });
@@ -25,6 +31,12 @@ router.get("/api/voter",mids.voterQuery,(req,res) => {
                 if(!org) return res.status(403).send();
                 res.status(200).send(org);
         });
+});
+router.get("/ping",(req,res) => {
+	mc.getInfo((err, info) => {
+	    if(err) return res.status(500).send(err);
+	    return res.status(200).send(info);
+	});
 });
 
 module.exports = router;
