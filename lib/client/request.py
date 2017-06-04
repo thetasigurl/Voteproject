@@ -5,15 +5,12 @@ import json
 class request():	
 
 #this one does not work for sure. 
-	def auth(self,hdata):
-		h = {'Content-type': 'application/json', 'Accept': 'text/html'}
-		url = "ec2-52-32-17-137.us-west-2.compute.amazonaws.com"
-		c = httplib.HTTPConnection(url)
-		c.request("POST","/auth",json.dumps(hdata),headers=h)
-		response = c.getresponse()
-		data = response.read()
-		return data
-	
+	def auth(self,hdata,addr):
+		c = httplib.HTTPConnection(addr)
+		c.request("GET","/api/voter?v="+hdata)
+		res = c.getresponse()
+		return res
+
 	def ping(self,number):
 		headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 		url = "ec2-52-32-17-137.us-west-2.compute.amazonaws.com"

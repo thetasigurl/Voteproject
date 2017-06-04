@@ -4,6 +4,8 @@ import Tkinter as tk # Tkinter = python2
 import ttk #pretty button/label library --cant get this to work
 import json
 import argparse
+from ConfigParser import SafeConfigParser
+import codecs
 import Savoir
 from Tkinter import *
 from hasher import hasher #hasher modual
@@ -33,7 +35,9 @@ class voteproject(tk.Tk): #inherantance
 		tk.Tk.__init__(self, *args, **kwargs) #initilize tk
 		self.hashies = 0
 		self.address = ""
-
+		self.remote = ""
+		self.votedFor = ""
+		self.Savoir = None
 		#tk.Tk.iconbitmap(self, default= "bulb.xbm") #broken
 		tk.Tk.wm_title(self,"VoteProject: Smart Democracy") #Works
 		
@@ -65,12 +69,28 @@ class voteproject(tk.Tk): #inherantance
 		self.hashies = hashinfo
 	def getHash(self):
 		return self.hashies
-	
+
 	def setAddress(self,add):
 		self.address = add
 	def getAddress(self):
 		return self.address
-	
+
+	def setVoted(self,add):
+		self.votedFor = add
+	def getVoted(self):
+		return self.votedFor
+
+	def setSavoir(self,api):
+		self.Savoir = api
+	def getSavoir(self):
+		return self.Savoir
+
+	def setRemote(self,add):
+		self.remote = add
+	def getRemote(self):
+		return self.remote
+
+
 	def show_frame(self, cont):
 		
 		frame= self.frames[cont] 
@@ -204,24 +224,28 @@ class authpage(tk.Frame):
 		self.controller = controller 	
 		label = tk.Label(self, text="Authentication Page", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
-		status = tk.Label(self,text="Authenticating your information...")
-		status.pack(pady=10)	
+		self.status = tk.Label(self,text="Authenticating your information...")
+		self.status.pack(pady=10)	
 		button1 = ttk.Button(self, text="Back to Home",command=lambda: controller.show_frame(loginpage))
 		button1.pack()
-		print("AUTHPAGE",self.controller.getHash())
 		
 	def makeRequest(self):
 		print("AUTHPAGE EROM",self.controller.getHash())
-"""	
 		rr = request()
-		hashr = rr.auth({"hash":self.controller.getHash()})
-		if(hashr != "NA"):
+		res = rr.auth(self.controller.getHash(),self.controller.getRemote())
+		if(res.status == 200):
+			#authentication is succesful. Time to grant address and ask for a coin
 			#next page
-			self.controller.show_frame(votepage)
+			try:
+				api = self.controller.getSavoir()
+				o = str(api.getnewaddress())
+				self.controller.setAddress(str(o))
+				self.controller.show_frame(votepage)
+			except Exception, e:
+				raise e
 		else:
 			#display error
-			print "error"
-"""		
+			self.status['text'] = "Your Information could not be Authenticated."
 		
 #______________________________________________________________________________________________________________
 class votepage(tk.Frame): 
@@ -233,18 +257,17 @@ class votepage(tk.Frame):
 		label = tk.Label(self, text="Vote Project", font=LARGE_FONT) #reference GloVar, this is how you add text in tk
 		label.pack(pady=10,padx=10)
 		
-		#R1 contains the hard coded wallet address for A.Bennet
+		#R1 contains the hard coded wallet address for Vanilla Ice Cream
 		var=tk.StringVar() 
-		R1 = Radiobutton(self, text="Andy Bennet", variable=var, value="1",command=lambda: controller.setAddress(var))
+		R1 = Radiobutton(self, text="Vanilla", variable=var, value="0",command=lambda: controller.setVoted(var))
 		R1.pack( anchor = W )
 		
-		#R2 contains the hard coded wallet address for Dr.Burris
-		R2 = Radiobutton(self, text="Dr. Burris", variable=var,value="4",command=lambda: controller.setAddress(var))
+		#R2 contains the hard coded wallet address for Chocolate Ice Cream
+		R2 = Radiobutton(self, text="Chocolate", variable=var,value="1",command=lambda: controller.setVoted(var))
 		R2.pack( anchor = W )
 
 		button1 =tk.Button(self, text="Submit Vote",command=lambda: self.buttonfunction())
 		button1.pack()	
-	
 	
 	def setAddress(self,var):
 		self.selection =(self.var.get())
@@ -260,8 +283,7 @@ class votepage(tk.Frame):
 		#voteadd = str(self.getAddress(selection.get()))
 		
 		#Calls makevote funciton
-		print self.controller.getAddress()
-		#print ("the contents of radio button is:" + self.controller.getAddress())
+		print (self.controller.getVoted().get())
 		self.makeVote()
 		
 		#after voting returns to button function
@@ -269,16 +291,15 @@ class votepage(tk.Frame):
 		self.controller.show_frame(resultpage)
 
 	def makeVote(self):
-		cc = chaincommands()
-		#Vadd is voter address
-		#Cadd is candidate address
-		vadd = cc.getNewWallet()
-		cadd = self.controller.getAddress()
-		#vadd = str(cadd)
-		if(cc.issuecoin(vadd,1)):
-			#cc.send(vadd,cadd,1)
-			return True
-		else: return False
+		try:
+			api = self.controller.getSavoir()
+			voter = self.controller.getAddress()
+			cand = self.controller.getVoted()
+			api.issuemore(voter,"votecoin",1)
+			api.sendassetfrom(voter,cand,"votecoin",1)
+
+		except Exception, e:
+			raise e
 		
 class resultpage(tk.Frame):
 	id = view_ids["result"]
@@ -301,7 +322,7 @@ class resultpage(tk.Frame):
 
 if __name__=="__main__":
 	import os
-	parser = argparse.ArgumentParser(description="A MultiChain enabled application for voting.")
+	"""parser = argparse.ArgumentParser(description="A MultiChain enabled application for voting.")
         parser.add_argument("-lnuser",dest="lnuser",action="store", default="multichainrpc",
                         help="User for the MultiChain RPC Local Node Client")
         parser.add_argument("-lnpass",dest="lnpass",action="store", required= "True",
@@ -313,19 +334,35 @@ if __name__=="__main__":
         parser.add_argument("-lname",dest="lname",action="store", required= "True",
                         help="Chain Name for the MultiChain RPC Local Node Client")
         parser.add_argument("-raddr",dest="raddr",action="store", required= "True",
-                        help="Address for the MultiChain RPC Remote Node Client")
-	args = parser.parse_args()
+                        help="Address for the MultiChain RPC Remote Node Client") """
+	parser = SafeConfigParser()
+	with codecs.open('config.ini', 'r', encoding='utf-8') as f: parser.readfp(f)
+	parser.read("config.ini")
+	lnuser = parser.get("vp","lnuser")
+	lnpass = parser.get("vp","lnpass")
+	lnhost = parser.get("vp","lnhost")
+	lnpass = parser.get("vp","lnpass")
+	lnport = parser.get("vp","lnport")
+	lnname = parser.get("vp","lnname")
+	rnaddr = parser.get("vp","rnaddr")
+
         try:
-                api = Savoir.Savoir(args.lnuser,args.lnpass,args.lnhost,args.lnport,args.lname)
+                api = Savoir.Savoir(lnuser,lnpass,
+                	lnhost,lnport,lnname)
                 print(api.getinfo())
                 app = voteproject()
 		#app = voteproject(mcargs=args)
                 image_file= os.path.join(os.path.dirname(__file__),"voteproject.gif")
                 assert os.path.exists(image_file)
                 s=splashscreen(app,timeout=2000,image=image_file)
+                app.setRemote(rnaddr)
+                app.setSavoir(api)
                 app.mainloop() #mainscreen wont stop
         except Exception, e:
-		if(e.request.body):
-			print("Local MC instance is not running")
-		raise e
+			if(hasattr(e,"request")):
+				print("Failed to connect to Local MC Node")
+				print(e)
+			else:
+				raise e
+			#raise e
 
