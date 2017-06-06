@@ -42,6 +42,9 @@ eval $cmd #executes the built command
 user= grep -e "user" -F ~/.multichain/voteproject/multichain.conf | sed -e 's/rpcuser=//g'
 pass= grep -e "pass" -F ~/.multichain/voteproject/multichain.conf | sed -e 's/rpcpassword=//g'
 
+#create config.ini in cwd/lib/client 
+#updated information
+
 echo "Multichain installation Complete" 
 
 #Multichain Explorer Installation
