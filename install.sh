@@ -31,7 +31,7 @@ tar -xvzf *.tar.gz #unpack
 mkdir -p ~/mchain29 #create Multichain directory -p checks to see if dir is created
 
 mv multichain-1.0-alpha-29 ~/mchain29 #moves extracted mchain29 file to /mchain29 dir - an effort to keep all extracted files together
-cd /home/mchain29/multichain-1.0-alpha-29 #To the mchain29 directory
+cd ~/mchain29/multichain-1.0-alpha-29 #To the mchain29 directory
 mv multichaind multichain-cli multichain-util ~/mchain29 #moves the important files needed for execution into a more convieniant location
 cd ~/mchain29
 
