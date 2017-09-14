@@ -240,6 +240,7 @@ class authpage(tk.Frame):
 				api = self.controller.getSavoir()
 				o = str(api.getnewaddress())
 				self.controller.setAddress(str(o))
+				print(o)
 				self.controller.show_frame(votepage)
 			except Exception, e:
 				raise e
@@ -259,15 +260,15 @@ class votepage(tk.Frame):
 		
 		#R1 contains the hard coded wallet address for Vanilla Ice Cream
 		var=tk.StringVar() 
-		R1 = Radiobutton(self, text="Vanilla", variable=var, value="1583KR34LK5PMDTsjhheoKCWbuXV4txDWpvNVv",command=lambda: controller.setVoted(var))
+		R1 = Radiobutton(self, text="Vanilla", variable=var, value="1krdM5kFa9JoTKhVZ3Pzg6a5nyQRWxpeGdvfW",command=lambda: controller.setVoted(var))
 		R1.pack( anchor = W )
 		
 		#R2 contains the hard coded wallet address for Chocolate Ice Cream
-		R2 = Radiobutton(self, text="Chocolate", variable=var,value="1AoLGKs9PaV2c1EXVYCwjvbxZuYJmQu7HzvBqX",command=lambda: controller.setVoted(var))
+		R2 = Radiobutton(self, text="Chocolate", variable=var,value="1C6CohXYacwsjLqpEcAKmerHexxZ9qTfbYxEpQ",command=lambda: controller.setVoted(var))
 		R2.pack( anchor = W )
 
 		#R3 contains the hard coded wallet address for Strawberry Ice Cream
-		R3 = Radiobutton(self, text="Strawberry", variable=var,value="1bDJsbpTaxDfbT5XYm9DzdsGnqz4oj89j1LHbe",command=lambda: controller.setVoted(var))
+		R3 = Radiobutton(self, text="Strawberry", variable=var,value="1BfHg7fQitZiwdyYxHnXGsbAkcdppkwmFhmmPC",command=lambda: controller.setVoted(var))
 		R3.pack( anchor = W )
 
 		button1 =tk.Button(self, text="Submit Vote",command=lambda: self.buttonfunction())
@@ -286,7 +287,7 @@ class votepage(tk.Frame):
 		#voteadd = 'null'
 		#voteadd = str(self.getAddress(selection.get()))
 		
-		#Calls makevote funciton
+		#Calls makevote funciton1M3jnwcBYss5Tvpyzr3maYyzU3zTPzPnWgCtzH
 		print (self.controller.getVoted().get())
 		self.makeVote()
 		
