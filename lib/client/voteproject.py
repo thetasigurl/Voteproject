@@ -240,6 +240,7 @@ class authpage(tk.Frame):
 				api = self.controller.getSavoir()
 				o = str(api.getnewaddress())
 				self.controller.setAddress(str(o))
+				print(o)
 				self.controller.show_frame(votepage)
 			except Exception, e:
 				raise e
@@ -286,7 +287,7 @@ class votepage(tk.Frame):
 		#voteadd = 'null'
 		#voteadd = str(self.getAddress(selection.get()))
 		
-		#Calls makevote funciton
+		#Calls makevote funciton1M3jnwcBYss5Tvpyzr3maYyzU3zTPzPnWgCtzH
 		print (self.controller.getVoted().get())
 		self.makeVote()
 		
